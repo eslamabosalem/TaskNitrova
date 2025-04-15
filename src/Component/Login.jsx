@@ -66,7 +66,7 @@ export default function Login() {
             alt="Background"
             className="w-full h-full object-cover absolute top-0 left-0 "
           />
-          <div className="relative z-10 px-6 sm:px-8 ">
+          <div className="relative z-10 px-6 sm:px-8 mr-96 ">
             <img src={logo} alt="Logo" className="mb-5" />
             <h2 className="font-medium text-[18px] mb-4 sm:text-lg">
               You will find comprehensive software solutions with us
