@@ -80,7 +80,7 @@ export default function SignUp({ isOpen, onClose }) {
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div
         id="sign-up-modal"
-        className="w-6/12 bg-white p-8 rounded-3xl shadow-lg relative"
+        className="w-full sm:w-6/12 bg-white p-8 rounded-3xl shadow-lg relative"
       >
         <button
           onClick={onClose}
@@ -92,8 +92,8 @@ export default function SignUp({ isOpen, onClose }) {
         <p className="mb-6 text-center">Enter the following information</p>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
-          <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="w-full md:w-1/2 relative mb-4 md:mb-0">
+          <div className="flex flex-col sm:flex-row sm:space-x-4">
+            <div className="w-full sm:w-1/2 relative mb-4 sm:mb-0">
               <input
                 type="text"
                 name="name"
@@ -111,7 +111,7 @@ export default function SignUp({ isOpen, onClose }) {
               )}
             </div>
 
-            <div className="w-full md:w-1/2 relative">
+            <div className="w-full sm:w-1/2 relative">
               <input
                 type="email"
                 name="email"
@@ -130,8 +130,8 @@ export default function SignUp({ isOpen, onClose }) {
             </div>
           </div>
 
-          <div className="flex flex-col md:flex-row md:space-x-4">
-            <div className="w-full md:w-1/2 relative mb-4 md:mb-0">
+          <div className="flex flex-col sm:flex-row sm:space-x-4">
+            <div className="w-full sm:w-1/2 relative mb-4 sm:mb-0">
               <input
                 type="text"
                 name="phone"
@@ -149,7 +149,7 @@ export default function SignUp({ isOpen, onClose }) {
               )}
             </div>
 
-            <div className="w-full md:w-1/2 relative">
+            <div className="w-full sm:w-1/2 relative">
               <input
                 type="password"
                 name="password"
@@ -170,7 +170,7 @@ export default function SignUp({ isOpen, onClose }) {
 
           <button
             type="submit"
-            className="w-full bg-[#0575E6] rounded-full py-4 text-white  transition"
+            className="w-full bg-[#0575E6] rounded-full py-4 text-white transition"
           >
             Create Account
           </button>
