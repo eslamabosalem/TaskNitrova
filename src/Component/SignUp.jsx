@@ -6,10 +6,21 @@ import * as Yup from "yup";
 import { UserContext } from "../UserContext";
 import { FaPhoneAlt, FaLock, FaEnvelope, FaUser } from "react-icons/fa";
 
+const validationSchema = Yup.object({
+  name: Yup.string().required("Full name is required"),
+  email: Yup.string()
+    .email("Invalid email address")
+    .required("Email is required"),
+  phone: Yup.string()
+    .matches(/^[0-9]{11}$/, "Phone number must be exactly 11 digits")
+    .required("Phone number is required"),
+  password: Yup.string()
+    .min(8, "Password must be at least 8 characters")
+    .required("Password is required"),
+});
+
 export default function SignUp({ isOpen, onClose }) {
   const { setUserLogin } = useContext(UserContext);
-
-  if (!isOpen) return null;
 
   const handleSignUp = (formValues) => {
     const storedEmails = JSON.parse(localStorage.getItem("storedEmails")) || [];
@@ -38,19 +49,6 @@ export default function SignUp({ isOpen, onClose }) {
       });
   };
 
-  const validationSchema = Yup.object({
-    name: Yup.string().required("Full name is required"),
-    email: Yup.string()
-      .email("Invalid email address")
-      .required("Email is required"),
-    phone: Yup.string()
-      .matches(/^[0-9]{11}$/, "Phone number must be exactly 11 digits")
-      .required("Phone number is required"),
-    password: Yup.string()
-      .min(8, "Password must be at least 8 characters")
-      .required("Password is required"),
-  });
-
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -62,7 +60,6 @@ export default function SignUp({ isOpen, onClose }) {
     onSubmit: (values) => handleSignUp(values),
   });
 
-  // Close modal when clicking outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       const modal = document.getElementById("sign-up-modal");
@@ -76,6 +73,8 @@ export default function SignUp({ isOpen, onClose }) {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [onClose]);
+
+  if (!isOpen) return null;
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">

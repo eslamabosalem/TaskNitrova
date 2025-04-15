@@ -8,7 +8,7 @@ import logo from "../assets/images/logo 1.png";
 import Background from "../assets/images/BackGround.svg";
 import grounp from "../assets/images/Group.svg";
 import SignUp from "./SignUp";
-import { FaEnvelope, FaLock } from "react-icons/fa";  // استيراد الأيقونات
+import { FaEnvelope, FaLock } from "react-icons/fa";
 
 export default function Login() {
   let navigate = useNavigate();
@@ -58,95 +58,106 @@ export default function Login() {
   });
 
   return (
-    <div className="w-full h-screen flex items-center justify-center">
-      <div className="w-full h-full flex flex-col md:flex-row rounded-none overflow-hidden">
-        <div className="w-full md:w-8/12 text-white flex flex-col justify-center items-center relative overflow-hidden">
-          <img
-            src={Background}
-            alt="Background"
-            className="w-full h-full object-cover absolute top-0 left-0 "
-          />
-          <div className="relative z-10 px-6 sm:px-8 mr-96 ">
-            <img src={logo} alt="Logo" className="mb-5" />
-            <h2 className="font-medium text-[18px] mb-4 sm:text-lg">
-              You will find comprehensive software solutions with us
-            </h2>
-            <button className="mt-4 mb-9 bg-[#0575E6] text-white font-medium py-2 px-7 rounded-full hover:bg-blue-100 transition sm:px-5">
-              Read More
-            </button>
-          </div>
-          <img
-            src={grounp}
-            alt="Group"
-            className="z-50 absolute w-96 left-0 bottom-0 md:w-1/3"
-          />
-        </div>
-        <div className="w-full md:w-4/12 flex flex-col justify-center items-center bg-white">
-          <div className="w-[90%] sm:w-[95%] md:w-[400px] h-[327px] mt-10">
-            <h2 className="text-3xl text-[#333] font-bold mb-2 sm:text-2xl text-left">
-              Hello Again!
-            </h2>
-            <p className="mb-6 text-2xl text-[#333] sm:text-sm">Welcome Back</p>
-
-            {error && <div className="text-red-500 text-sm mb-2">{error}</div>}
-
-            <form onSubmit={formik.handleSubmit} className="space-y-4">
-              <div className="relative">
-                <FaEnvelope className="absolute top-5 left-5 text-[#EEEEEE]" />
-                <input
-                  type="email"
-                  name="email"
-                  placeholder="Email Address"
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.email}
-                />
-                {formik.touched.email && formik.errors.email && (
-                  <div className="text-red-500 text-sm mt-1">
-                    {formik.errors.email}
-                  </div>
-                )}
-              </div>
-
-              <div className="relative">
-                <FaLock className="absolute top-5 left-5 text-[#EEEEEE]" />
-                <input
-                  type="password"
-                  name="password"
-                  placeholder="Password"
-                  className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full"
-                  onChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  value={formik.values.password}
-                />
-                {formik.touched.password && formik.errors.password && (
-                  <div className="text-red-500 text-sm mt-1">
-                    {formik.errors.password}
-                  </div>
-                )}
-              </div>
-
-              <button
-                type="submit"
-                className="w-full bg-[#0575E6] rounded-full py-4 text-white sm:py-3"
-              >
-                Login
-              </button>
-            </form>
-
-            <p className="mt-4 text-sm text-gray-600 text-center">
-              Don't have an account?
-              <button
-                className="text-blue-600 hover:text-blue-800 ml-1"
-                onClick={() => setShowSignUp(true)}
-              >
-                Register
-              </button>
-            </p>
-          </div>
-        </div>
+    <div>
+     <div className="flex flex-col md:flex-row h-screen">
+  {/* الجزء الأيسر - للخلفية والصورة */}
+  <div className="md:w-8/12 w-full flex flex-col justify-center items-center relative bg-blue-500 min-h-[300px] md:min-h-auto">
+    <img
+      src={Background}
+      alt="Background"
+      className="absolute top-0 left-0 w-full h-full object-cover"
+    />
+    
+    <div className="relative px-6 sm:px-8 z-10 md:mr-28 w-full md:w-auto text-center md:text-left">
+      <div className="flex justify-center md:block">
+        <img src={logo} alt="Logo" className="mb-5 w-32 md:w-auto" />
       </div>
+      <h2 className="font-medium text-white text-lg mb-4 md:text-xl lg:text-2xl">
+        You will find comprehensive software solutions with us
+      </h2>
+      <div className="flex justify-center md:block">
+        <button className="mb-10 md:mb-20 md:mr-8 bg-[#0575E6] text-white font-medium py-2 px-7 rounded-full hover:bg-blue-100 transition">
+          Read More
+        </button>
+      </div>
+    </div>
+    
+    <img
+      src={grounp}
+      alt="Group"
+      className="absolute bottom-0 left-0  w-[150px]  xl:[400px] md:w-[300px] 2xl:w-[430px] "
+    />
+  </div>
+
+  {/* الجزء الأيمن - للنموذج */}
+  <div className="w-full md:w-4/12 flex flex-col justify-center items-center bg-white p-6">
+    <div className="w-full max-w-[400px] mt-5 md:mt-10 px-4">
+      <h2 className="text-2xl md:text-3xl text-[#333] font-bold mb-2 text-center md:text-left">
+        Hello Again!
+      </h2>
+      <p className="mb-6 text-xl md:text-2xl text-[#333] text-center md:text-left">
+        Welcome Back
+      </p>
+
+      {error && <div className="text-red-500 text-sm mb-2 text-center md:text-left">{error}</div>}
+
+      <form onSubmit={formik.handleSubmit} className="space-y-4">
+        <div className="relative">
+          <FaEnvelope className="absolute top-4 left-4 text-[#EEEEEE]" />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full text-sm md:text-base"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.email}
+          />
+          {formik.touched.email && formik.errors.email && (
+            <div className="text-red-500 text-sm mt-1">
+              {formik.errors.email}
+            </div>
+          )}
+        </div>
+
+        <div className="relative">
+          <FaLock className="absolute top-4 left-4 text-[#EEEEEE]" />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            className="w-full pl-12 pr-4 py-3 border border-gray-300 rounded-full text-sm md:text-base"
+            onChange={formik.handleChange}
+            onBlur={formik.handleBlur}
+            value={formik.values.password}
+          />
+          {formik.touched.password && formik.errors.password && (
+            <div className="text-red-500 text-sm mt-1">
+              {formik.errors.password}
+            </div>
+          )}
+        </div>
+
+        <button
+          type="submit"
+          className="w-full bg-[#0575E6] rounded-full py-3 md:py-4 text-white text-sm md:text-base"
+        >
+          Login
+        </button>
+      </form>
+
+      <p className="mt-4 text-sm text-gray-600 text-center">
+        Don't have an account?
+        <button
+          className="text-blue-600 hover:text-blue-800 ml-1"
+          onClick={() => setShowSignUp(true)}
+        >
+          Register
+        </button>
+      </p>
+    </div>
+  </div>
+</div>
 
       <SignUp isOpen={showSignUp} onClose={() => setShowSignUp(false)} />
     </div>
