@@ -88,8 +88,8 @@ export default function SignUp({ isOpen, onClose }) {
         >
           &times;
         </button>
-        <h2 className="text-3xl font-bold mb-4 text-center">Create Account</h2>
-        <p className="mb-6 text-center">Enter the following information</p>
+        <h2 className="text-3xl font-bold mb-4 text-center md:text-left">Create Account</h2>
+        <p className="mb-6 text-center md:text-left">Enter the following information</p>
 
         <form onSubmit={formik.handleSubmit} className="space-y-6">
           <div className="flex flex-col sm:flex-row sm:space-x-4">

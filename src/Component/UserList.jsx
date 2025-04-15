@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FiSearch, FiFilter, FiChevronDown, FiX, FiPlus, FiChevronUp, FiChevronDown as FiChevronDownIcon } from 'react-icons/fi';
+import { FiSearch, FiFilter, FiChevronDown, FiX, FiPlus, FiChevronDown as FiChevronDownIcon } from 'react-icons/fi';
+import { FiChevronUp } from 'react-icons/fi';
 
 export default function UsersList() {
   const [users, setUsers] = useState([]);
@@ -40,7 +41,6 @@ export default function UsersList() {
     fetchUsers();
   }, []);
 
-  // Handle individual user selection
   const handleUserSelect = (userId) => {
     setSelectedUsers(prev => 
       prev.includes(userId)
@@ -49,7 +49,6 @@ export default function UsersList() {
     );
   };
 
-  // Handle select all/none
   const handleSelectAll = () => {
     if (selectAll) {
       setSelectedUsers([]);
@@ -59,7 +58,6 @@ export default function UsersList() {
     setSelectAll(!selectAll);
   };
 
-  // Apply sorting
   const requestSort = (key) => {
     let direction = 'asc';
     if (sortConfig.key === key && sortConfig.direction === 'asc') {
@@ -68,11 +66,9 @@ export default function UsersList() {
     setSortConfig({ key, direction });
   };
 
-  // Apply search, filters and sorting
   useEffect(() => {
     let result = [...users];
     
-    // Apply search
     if (searchTerm) {
       result = result.filter(user => 
         user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -82,24 +78,20 @@ export default function UsersList() {
       );
     }
     
-    // Apply company filter
     if (filters.company) {
       result = result.filter(user => 
         user.company?.name.toLowerCase().includes(filters.company.toLowerCase())
       );
     }
     
-    // Apply phone prefix filter
     if (filters.phonePrefix) {
       result = result.filter(user => 
         user.phone.startsWith(filters.phonePrefix)
       );
     }
     
-    // Apply sorting
     if (sortConfig.key) {
       result.sort((a, b) => {
-        // Handle nested properties like company.name
         const aValue = sortConfig.key.split('.').reduce((o, i) => o?.[i], a);
         const bValue = sortConfig.key.split('.').reduce((o, i) => o?.[i], b);
         
@@ -119,15 +111,12 @@ export default function UsersList() {
     setSelectAll(false); 
   }, [searchTerm, filters, users, sortConfig]);
 
-  // Get current users
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
   const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-  // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-  // Reset filters
   const resetFilters = () => {
     setFilters({
       company: '',
@@ -136,12 +125,10 @@ export default function UsersList() {
     setSearchTerm('');
   };
 
-  // Handle add user
   const handleAddUser = () => {
     navigate('/users/new');
   };
 
-  // Sort indicator component
   const SortIndicator = ({ columnKey }) => {
     if (sortConfig.key !== columnKey) {
       return (
@@ -164,9 +151,7 @@ export default function UsersList() {
 
   return (
     <div className="container mx-auto px-4 py-8 font-sans">
-      <div className="flex justify-between items-center mb-6">
-     {/* Search and Filter Bar */}
-     <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
         <div className="flex items-center gap-4 w-full">
           <div className="relative w-full md:w-64">
             <FiSearch className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
@@ -193,7 +178,7 @@ export default function UsersList() {
               className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-gray-50"
             >
               <FiFilter />
-              <span>Filters</span>
+              <span className="hidden md:inline">Filters</span>
               <FiChevronDown className={`transition-transform ${showFilters ? 'rotate-180' : ''}`} />
             </button>
             
@@ -207,18 +192,16 @@ export default function UsersList() {
             )}
           </div>
         </div>
-      </div>
-      
-      {/* Filters Dropdown */}
-    
+        
         <button
           onClick={handleAddUser}
-          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+          className="flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors w-full md:w-auto justify-center"
         >
           <FiPlus />
           <span>Add User</span>
         </button>
       </div>
+      
       {showFilters && (
         <div className="bg-white p-4 mb-6 border rounded-lg shadow-sm">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -245,10 +228,9 @@ export default function UsersList() {
           </div>
         </div>
       )}
-   
 
-      {/* Header Section */}
-      <div className="grid grid-cols-12 gap-4 mb-4 text-sm text-gray-600 font-medium items-center">
+      {/* Desktop Table Header */}
+      <div className="hidden md:grid grid-cols-12 gap-4 mb-4 text-sm text-gray-600 font-medium items-center">
         <div className="col-span-1 flex items-center">
           <input
             type="checkbox"
@@ -288,15 +270,14 @@ export default function UsersList() {
         </div>
       </div>
 
-      {/* Loading Indicator */}
       {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
         </div>
       ) : (
         <>
-          {/* Users List */}
-          <div className="space-y-2">
+          {/* Desktop Users List */}
+          <div className="hidden md:block space-y-2">
             {currentUsers.length > 0 ? (
               currentUsers.map((user, index) => (
                 <div 
@@ -346,49 +327,63 @@ export default function UsersList() {
             )}
           </div>
 
-          {/* Pagination */}
-          <div className="flex justify-between items-center mt-6">
-            <div className="text-sm text-gray-600">
-              {indexOfFirstUser + 1}-{Math.min(indexOfLastUser, totalUsers)} of {totalUsers}
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <div className="flex items-center space-x-2">
-                <span className="text-sm text-gray-600">Rows per page:</span>
-                <select 
-                  className="border rounded px-2 py-1 text-sm bg-transparent"
-                  value={usersPerPage}
-                  disabled
+          {/* Mobile Users List */}
+          <div className="md:hidden space-y-3">
+            {currentUsers.length > 0 ? (
+              currentUsers.map((user, index) => (
+                <div 
+                  key={user.id}
+                  className="p-4 border rounded-lg shadow-sm hover:shadow-md transition-shadow"
+                  onClick={() => navigate(`/users/${user.id}`)}
                 >
-                  <option value="10">10</option>
-                </select>
+                  <div className="flex justify-between items-start mb-2">
+                    <div className="flex items-center">
+                      <input
+                        type="checkbox"
+                        checked={selectedUsers.includes(user.id)}
+                        onChange={() => handleUserSelect(user.id)}
+                        className="h-4 w-4 text-blue-600 rounded border-gray-300 focus:ring-blue-500 mr-2"
+                        onClick={(e) => e.stopPropagation()}
+                      />
+                      <span className="font-medium">{indexOfFirstUser + index + 1}. {user.name}</span>
+                    </div>
+                    <span className="text-sm text-gray-500">{user.company?.name || 'N/A'}</span>
+                  </div>
+                  <div className="text-sm text-gray-600 mb-1">{user.email}</div>
+                  <div className="text-sm text-gray-600">{user.phone}</div>
+                </div>
+              ))
+            ) : (
+              <div className="p-4 text-center text-gray-500">
+                No users found matching your criteria
               </div>
-              
-              <div className="flex items-center space-x-2">
-                <button
-                  onClick={() => paginate(currentPage - 1)}
-                  disabled={currentPage === 1}
-                  className="px-3 py-1 rounded disabled:opacity-50 hover:bg-gray-100"
-                >
-                  <span className="text-lg">‹</span>
-                </button>
-                
-                <span className="text-sm">
-                  {currentPage}/{Math.ceil(totalUsers / usersPerPage)}
-                </span>
-                
-                <button
-                  onClick={() => paginate(currentPage + 1)}
-                  disabled={currentPage === Math.ceil(totalUsers / usersPerPage)}
-                  className="px-3 py-1 rounded disabled:opacity-50 hover:bg-gray-100"
-                >
-                  <span className="text-lg">›</span>
-                </button>
-              </div>
-            </div>
+            )}
           </div>
         </>
       )}
+      
+      {/* Pagination */}
+      <div className="flex justify-between items-center mt-6">
+        <div className="text-sm text-gray-600">
+          Showing {indexOfFirstUser + 1} to {indexOfLastUser} of {totalUsers} users
+        </div>
+        <div className="flex space-x-2">
+          <button 
+            onClick={() => paginate(currentPage - 1)} 
+            className="px-3 py-1 border rounded-md hover:bg-gray-100"
+            disabled={currentPage === 1}
+          >
+            Prev
+          </button>
+          <button 
+            onClick={() => paginate(currentPage + 1)} 
+            className="px-3 py-1 border rounded-md hover:bg-gray-100"
+            disabled={currentPage === Math.ceil(totalUsers / usersPerPage)}
+          >
+            Next
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
